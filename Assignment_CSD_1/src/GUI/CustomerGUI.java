@@ -3,103 +3,63 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package Intermediaries;
 
 import Entity.Manager;
-import Entity.Validate;
-import static GUI.ProductGUI.displayData;
-import Intermediaries.CustomerInter;
+
+import Information.Customer;
+
+import Node.MyList;
 import java.io.IOException;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class CustomerGUI {
+public class CustomerInter {
 
-    Manager manager = new Manager();
-    static CustomerInter customerInter = new CustomerInter();
+    public CustomerInter() {
+    }
 
-    public static void menu() throws Exception {
-        System.out.println("2.1. Load data from file");
-        System.out.println("2.2. Input & add to the end");
-        System.out.println("2.3. Display data");
-        System.out.println("2.4. Save customer list to file");
-        System.out.println("2.5. Search by ccode");
-        System.out.println("2.6. Delete by ccode");
-        System.out.println("2.7. Exit");
-        int option = Validate.checkInputIntLimit(1, 7);
-        switch (option) {
-            case 1: {
-                loadCustomerFile();
-                System.err.println("Load success!");
-                break;
-            }
-            case 2: {
-                addCustomer();
-                break;
-            }
-            case 3: {
-                displayCustomerData();
-                break;
-            }
-            case 4: {
-                saveCustomerToFile();
-                System.err.println("Save success!");
-                break;
-            }
-            case 5: {
-                searchByCCode();
-                break;
-            }
-            case 6: {
-                deleteCustomerByCode();
-                System.err.println("Delete success!");
-                break;
-            }
-            case 7: {
-                return;
-            }
+    public void loadCustomerFile() throws Exception {
+        Manager.loadCustomerFormFile();
+    }
+
+    public void saveCustomerToFile() throws IOException {
+        Manager.saveCustomerFile();
+    }
+
+    public void searchCustomerByCode(String ccode) {
+        Customer customer = Manager.getCustomer(ccode);
+        if (customer == null) {
+            System.err.println("Ccode not exist!");
+            return;
+        }
+        customer.printCustomer();
+    }
+
+    public static void displayData() {
+        MyList<Customer> CustomerList = Manager.getCustomerList();
+        if (CustomerList.isEmpty()) {
+            System.err.println("Empty list!");
+            return;
+        }
+        System.out.printf("%5s|%8s|%7s\n", "ccode", "cus_name", "phone");
+        System.out.println("=========================");
+        for (int i = 0; i < CustomerList.size(); i++) {
+            Customer currentCustomer = CustomerList.get(i);
+            System.out.printf("%5s|%8s|%7s\n", currentCustomer.getCcode(), currentCustomer.getCus_name(), currentCustomer.getPhone());
         }
     }
-
-    public static void loadCustomerFile() throws Exception {
-        customerInter.loadCustomerFile();
-    }
-
-    public static void addCustomer() {
-        System.out.print("Enter ccode: ");
-        String ccode = Validate.checkInputString();
-        System.out.print("Enter cus_name: ");
-        String pro_name = Validate.checkInputString();
-        System.out.print("Enter phone: ");
-        String phone = Validate.checInputPhone();
-        if(CustomerInter.checkCustomerExist(ccode)) {
-            System.err.println("Ccode has aready exist!");
-        }else {
-            customerInter.addCustomer(ccode, pro_name, phone);
-        }
-    }
-
-    public static void saveCustomerToFile() throws IOException {
-        customerInter.saveCustomerToFile();
-    }
-
-    public static void searchByCCode() {
-        System.out.print("Enter ccode you want to search: ");
-        String ccode = Validate.checkInputString();
-        customerInter.searchCustomerByCode(ccode);
-    }
-
-    public static void displayCustomerData() {
-        CustomerInter.displayData();
-    }
-
-    public static void deleteCustomerByCode() {
-        System.out.print("Enter ccode you want to delete: ");
-        String ccode = Validate.checkInputString();
-        CustomerInter.deleteCustomerByCode(ccode);
+    public static void deleteCustomerByCode(String ccode) {
         Manager.deleteCustomer(ccode);
     }
+    public static boolean checkCustomerExist(String ccode){ 
+        return Manager.checkCustomerExist(ccode);
+    }
 
+    public void addCustomer(String ccode, String pro_name, String phone) {
+        Customer customer = new Customer(ccode, pro_name, phone);
+        Manager.addCustomer(customer);
+    }
 }
