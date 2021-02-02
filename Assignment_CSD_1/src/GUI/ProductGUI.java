@@ -39,6 +39,7 @@ public class ProductGUI {
             }
             case 2: {
                 addProduct();
+
                 break;
             }
             case 3: {
@@ -91,7 +92,7 @@ public class ProductGUI {
         int quantity = Validate.checkInputInt();
         System.out.print("Enter saled: ");
         int saled = Validate.checkInputInt();
-        if(!Validate.checkInputSaledQuantity(quantity, saled)) {
+        if (!Validate.checkInputSaledQuantity(quantity, saled)) {
             System.err.println("Quantity must larger than saled! Enter again!");
             return;
         }
@@ -100,7 +101,9 @@ public class ProductGUI {
         if (ProductInter.checkProductExist(pcode)) {
             System.err.print("Pcode already exist!");
         } else {
+            System.err.println("Add success");
             ProductInter.addProduct(pcode, pro_name, quantity, saled, price);
+
         }
     }
 
@@ -121,7 +124,7 @@ public class ProductGUI {
             System.err.print("Pcode already exist!");
             return;
         }
-        if(!productInter.checkInputIndex(index)) {
+        if (!productInter.checkInputIndex(index)) {
             System.err.println("Index must smaller than size of the list!");
             return;
         }
@@ -134,8 +137,9 @@ public class ProductGUI {
     }
 
     public static void saveProductToFile() throws IOException {
-        ProductInter.saveProductToFile();
         System.err.println("Save success!");
+        ProductInter.saveProductToFile();
+        
     }
 
     public static void deleteProduct() {
@@ -151,7 +155,7 @@ public class ProductGUI {
         ProductInter.getProductByCode(pcode);
     }
 
-    public static void sortProductByCode(){
+    public static void sortProductByCode() {
         ProductInter.sortProductByCode();
     }
 
