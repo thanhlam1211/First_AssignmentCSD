@@ -79,7 +79,7 @@ public class Manager {
     //function to load customer form file
     public static void loadCustomerFormFile() throws Exception {
         String currentDir = System.getProperty("user.dir");
-        currentDir = currentDir + "\\src\\Information\\DataFile.txt";
+        currentDir = currentDir + "\\src\\Information\\Customer.txt";
         FileReader fr = new FileReader(currentDir);
         BufferedReader br = new BufferedReader(fr);
         String[] arr;
@@ -148,7 +148,6 @@ public class Manager {
 
     public static void addProductLast(Product product) {
         productList.addLast(product);
-        System.err.println("Add success");
     }
 
     public static void addProductIndex(Product product, int index) {
@@ -200,7 +199,8 @@ public class Manager {
         }
         System.out.println("Sort success");
     }
-    public static boolean checkInputIndex(int index){
+
+    public static boolean checkInputIndex(int index) {
         return index <= productList.size();
     }
 
@@ -231,7 +231,7 @@ public class Manager {
         for (int i = 0; i < customerList.size(); i++) {
             if (customerList.get(i).getCcode().equals(code)) {
                 customerList.delIndex(i);
-                System.out.println("Delete success!");
+                System.err.println("Delete success!");
                 return;
             }
         }
