@@ -6,9 +6,9 @@
 package Intermediaries;
 
 import Entity.Manager;
-import Entity.Validate;
+
 import Information.Customer;
-import Information.Product;
+
 import Node.MyList;
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public class CustomerInter {
             return;
         }
         System.out.printf("%5s|%8s|%7s\n", "ccode", "cus_name", "phone");
-        System.out.println("=======================================================");
+        System.out.println("=========================");
         for (int i = 0; i < CustomerList.size(); i++) {
             Customer currentCustomer = CustomerList.get(i);
             System.out.printf("%5s|%8s|%7s\n", currentCustomer.getCcode(), currentCustomer.getCus_name(), currentCustomer.getPhone());
@@ -54,7 +54,7 @@ public class CustomerInter {
     public static void deleteCustomerByCode(String ccode) {
         Manager.deleteCustomer(ccode);
     }
-    public static boolean checkCustomerExist(String ccode){
+    public static boolean checkCustomerExist(String ccode){ 
         return Manager.checkCustomerExist(ccode);
     }
 
