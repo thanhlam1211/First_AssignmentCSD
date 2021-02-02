@@ -71,10 +71,6 @@ public class ProductInter {
         Manager.deleteProductByCode(pcode);
     }
 
-    public void deleteProduct() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public static void sortProductByCode() {
         Manager.sortProductByCode();
     }
