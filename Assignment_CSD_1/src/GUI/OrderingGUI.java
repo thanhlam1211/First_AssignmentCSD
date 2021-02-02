@@ -56,7 +56,7 @@ public class OrderingGUI {
     public static void displayData() {
         orderingInter.display();
     }
-    private static void sortByBothCode() {
-        orderingInter.sortByBothCode();
+     private static void sortByBothCode() {
+       orderingInter.sortByBothCode();
     }
 }
