@@ -5,15 +5,18 @@
  */
 package Entity;
 
+import static Entity.Manager.productList;
 import Information.Customer;
 import Information.Ordering;
 import Information.Product;
+import Intermediaries.ProductInter;
 import Node.MyList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 /**
  *
@@ -176,7 +179,7 @@ public class Manager {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getPcode().equals(code)) {
                 productList.delIndex(i);
-                System.err.println("Delete successful");
+                System.out.println("Delete successful");
                 return;
             }
         }
@@ -201,7 +204,7 @@ public class Manager {
     }
 
     public static boolean checkInputIndex(int index) {
-        return index <= productList.size();
+        return index < productList.size();
     }
 
     public static void addCustomer(Customer customer) {
@@ -231,7 +234,7 @@ public class Manager {
         for (int i = 0; i < customerList.size(); i++) {
             if (customerList.get(i).getCcode().equals(code)) {
                 customerList.delIndex(i);
-                System.err.println("Delete success!");
+                System.out.println("Delete success!");
                 return;
             }
         }
@@ -240,7 +243,6 @@ public class Manager {
 
     public static void addOrder(Ordering ordering) {
         orderingList.addLast(ordering);
-        System.out.println("Add success!");
     }
 
     public static void updateOrder(String pcode) {
@@ -280,5 +282,99 @@ public class Manager {
                 }
             }
         }
+    }
+
+    public static void addOrdering(String pcode, String ccode, int quantity) {
+        Product product = Manager.getProduct(pcode);
+        Ordering ordering;
+
+        if (Manager.checkExistProduct(pcode) && Manager.checkCustomerExist(ccode)) {
+            if (Manager.checkExistOrdering(pcode, ccode) == -1) {
+                if (product.getQuantity() == product.getSaled()) {
+                    System.out.println("Product is exhausted!");
+                } else {
+                    ordering = new Ordering(pcode, ccode, quantity);
+                    Manager.updateOrder(pcode);
+                    Manager.addOrder(ordering);
+                    System.out.println("Add success!");
+                    return;
+                }
+                if (product.getSaled() < product.getQuantity()
+                        && quantity <= (product.getQuantity() - product.getSaled())) {
+                    ordering = new Ordering(pcode, ccode, quantity);
+                    Manager.updateOrder(pcode);
+                    Manager.addOrder(ordering);
+                    System.out.println("Add success!");
+                } else {
+                    System.out.println("Invalid quantity! Try again.");
+                }
+            }
+        } else {
+            System.out.println("Product or Customer not found! Try again");
+        }
+    }
+
+    public static String checkInputPcode(String pcode) {
+        if (checkExistProduct(pcode)) {
+            return pcode;
+        }
+        for (int i = 0; i < productList.size(); i++) {
+            Product currentProduct = productList.get(i);
+            if (pcode.length() == 1 || pcode.length() == 2) {
+                continue;
+            }
+            if (!currentProduct.getPcode().equalsIgnoreCase(pcode)) {
+                return null;
+            }
+        }
+        System.out.printf("%5s|%11s|%10s|%8s|%8s|%8s\n", "pcode", "pro_name", "quantity", "saled", "price", "value");
+        System.out.println("=======================================================");
+        for (int i = 0; i < productList.size(); i++) {
+            Product currentProduct = productList.get(i);
+            if (currentProduct.getPcode().contains(pcode)) {
+                System.out.printf("%5s|%11s|%10s|%8s|%8s|%8s\n", currentProduct.getPcode().toUpperCase(), currentProduct.getPro_name(),
+                        currentProduct.getQuantity(), currentProduct.getSaled(), currentProduct.getPrice(),
+                        String.format("%.1f", currentProduct.getPrice() * currentProduct.getSaled()));
+            }
+        }
+        System.out.print("Enter pcode you want to continue: ");
+        String pcode_input = Validate.checkInputString();
+        if (checkExistProduct(pcode_input)) {
+            return pcode_input;
+        }
+
+        return null;
+    }
+
+    public static String checkInputCcode(String ccode) {
+        if (checkCustomerExist(ccode)) {
+            return ccode;
+        }
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer currentCustomer = customerList.get(i);
+            if (ccode.length() == 1 || ccode.length() == 2) {
+                continue;
+            }
+            if (!currentCustomer.getCcode().equalsIgnoreCase(ccode)) {
+                return null;
+            }
+        }
+        System.out.printf("%5s|%8s|%7s\n", "ccode", "cus_name", "phone");
+        System.out.println("=========================");
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer currentCustomer = customerList.get(i);
+            if (currentCustomer.getCcode().contains(ccode)) {
+                System.out.printf("%5s|%8s|%7s\n", currentCustomer.getCcode().toUpperCase(),
+                        currentCustomer.getCus_name(), currentCustomer.getPhone());
+            }
+        }
+
+        System.out.print("Enter ccode you want to continue: ");
+        String ccode_input = Validate.checkInputString();
+        if (checkCustomerExist(ccode_input)) {
+            return ccode_input;
+        }
+
+        return null;
     }
 }
