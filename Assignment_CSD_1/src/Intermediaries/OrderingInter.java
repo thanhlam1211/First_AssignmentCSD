@@ -20,29 +20,7 @@ public class OrderingInter {
     }
 
     public void add(String pcode, String ccode, int quantity) {
-        Product product = Manager.getProduct(pcode);
-        Ordering ordering;
-        if (Manager.checkExistProduct(pcode) && Manager.checkCustomerExist(ccode)) {
-            if (Manager.checkExistOrdering(pcode, ccode) == -1) {
-                if (product.getQuantity() == product.getSaled()) {
-                    System.err.println("Product is exhausted!");
-                } else {
-                    ordering = new Ordering(pcode, ccode, quantity);
-                    Manager.updateOrder(pcode);
-                    Manager.addOrder(ordering);
-                }
-                if (product.getSaled() < product.getQuantity()
-                        && quantity <= (product.getQuantity() - product.getSaled())) {
-                    ordering = new Ordering(pcode, ccode, quantity);
-                    Manager.updateOrder(pcode);
-                    Manager.addOrder(ordering);
-                } else {
-                    System.err.println("Invalid quantity! Try again.");
-                }
-            }
-        } else {
-            System.err.println("Product or Customer not found! Try again");
-        }
+       Manager.addOrdering(pcode, ccode, quantity);
     }
 
     public void display() {
@@ -60,5 +38,15 @@ public class OrderingInter {
     public void sortByBothCode() {
         Manager.sortOrdering();
     }
+    
+    
+    public String checkInputCcode(String ccode) {
+        return Manager.checkInputCcode(ccode);
+    }
+
+    public String checkInputPcode(String pcode) {
+        return Manager.checkInputPcode(pcode);
+    }
+
 
 }
