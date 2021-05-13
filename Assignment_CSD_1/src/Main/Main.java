@@ -22,6 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
         while (true) {
+            System.out.println("BlaBla");
             System.out.println("1. Product list");
             System.out.println("2. Customer list");
             System.out.println("3. Order list");
