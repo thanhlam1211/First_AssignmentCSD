@@ -29,6 +29,7 @@ public class Main {
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
             System.out.println("lai con cu to");
+            System.out.println("đây là commit lần 3");
             int choice = Validate.checkInputIntLimit(1, 3);
             switch (choice) {
                 case 1: {
