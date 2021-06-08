@@ -22,12 +22,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
         while (true) {
-            System.out.println("BlaBla");
+            System.out.println("Lam dep trai nhat");
             System.out.println("1. Product list");
             System.out.println("2. Customer list");
             System.out.println("3. Order list");
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
+            System.out.println("lai con cu to");
             int choice = Validate.checkInputIntLimit(1, 3);
             switch (choice) {
                 case 1: {
